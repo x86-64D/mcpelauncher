@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RCC>
+  <qresource prefix="/translations">
+    <file>mcpelauncher_en.qm</file>
+  </qresource>
+</RCC>

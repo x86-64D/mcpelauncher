@@ -1,0 +1,66 @@
+#pragma once
+
+#include <algorithm>
+#include <unordered_map>
+#include <iostream>
+#include <functional>
+
+namespace properties {
+
+class property_list {
+
+private:
+    struct property_def {
+        std::function<void (std::string const&)> parse_value;
+        std::function<std::string ()> serialize_value;
+    };
+
+    std::unordered_map<std::string, property_def> prop;
+    std::unordered_map<std::string, std::string> unknown_props;
+    char sep = '=';
+
+public:
+    property_list() {}
+    
+    property_list(char sep) : sep(sep) {}
+
+    void register_property(std::string name, std::function<void (std::string const&)> parse_value,
+                           std::function<std::string ()> serialize_value) {
+        this->prop.insert({name, {parse_value, serialize_value}});
+    }
+
+    void set_property(std::string const& name, std::string const& value) {
+        auto it = prop.find(name);
+        if (it == prop.end()) {
+            unknown_props[name] = value;
+        } else {
+            it->second.parse_value(value);
+        }
+    }
+
+    void load(std::istream& stream) {
+        std::string line;
+        while (std::getline(stream, line)) {
+            // Reading files coming from windows use CRLF and readline does not protect us
+            line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+            if (line.length() > 0 && line[0] == '#')
+                continue;
+            size_t i = line.find(sep);
+            if (i == std::string::npos)
+                continue;
+            set_property(line.substr(0, i), line.substr(i + 1));
+        }
+    }
+
+    void save(std::ostream& stream) {
+        for (auto const& p : prop) {
+            stream << p.first << sep << p.second.serialize_value() << '\n';
+        }
+        for (auto const& p : unknown_props) {
+            stream << p.first << sep << p.second << '\n';
+        }
+    }
+
+};
+
+}

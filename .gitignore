@@ -1,0 +1,6 @@
+build
+cmake-build-debug
+cmake-build-debug-clang
+cmake-build-release
+cmake-build-release-clang
+dil4-is-jobless

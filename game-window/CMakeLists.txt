@@ -1,0 +1,30 @@
+cmake_minimum_required (VERSION 2.6...4.0.0)
+
+project(eglut LANGUAGES CXX)
+
+include(BuildSettings.cmake)
+
+set(GAMEWINDOW_SOURCES include/game_window.h include/game_window_manager.h src/game_window_manager.cpp src/game_window_error_handler.cpp src/joystick_manager.cpp)
+set(GAMEWINDOW_SOURCES_LINUX_GAMEPAD src/joystick_manager_linux_gamepad.cpp src/joystick_manager_linux_gamepad.h src/window_with_linux_gamepad.cpp src/window_with_linux_gamepad.h)
+set(GAMEWINDOW_SOURCES_EGLUT src/window_eglut.h src/window_eglut.cpp src/window_manager_eglut.cpp src/window_manager_eglut.h)
+set(GAMEWINDOW_SOURCES_GLFW src/window_glfw.h src/window_glfw.cpp src/window_manager_glfw.cpp src/window_manager_glfw.h src/joystick_manager_glfw.cpp src/joystick_manager_glfw.h)
+set(GAMEWINDOW_SOURCES_SDL3 src/window_sdl3.h src/window_sdl3.cpp src/window_manager_sdl3.cpp src/window_manager_sdl3.h)
+
+add_library(gamewindow ${GAMEWINDOW_SOURCES})
+target_include_directories(gamewindow PUBLIC include/)
+
+if (GAMEWINDOW_SYSTEM STREQUAL "EGLUT")
+    target_sources(gamewindow PRIVATE ${GAMEWINDOW_SOURCES_EGLUT} ${GAMEWINDOW_SOURCES_LINUX_GAMEPAD})
+    target_link_libraries(gamewindow PUBLIC eglut linux-gamepad)
+elseif (GAMEWINDOW_SYSTEM STREQUAL "GLFW")
+    target_sources(gamewindow PRIVATE ${GAMEWINDOW_SOURCES_GLFW})
+    target_link_libraries(gamewindow PUBLIC glfw3)
+    if(GAMEWINDOW_SYSTEM_FALLBACK STREQUAL "EGLUT")
+        target_sources(gamewindow PRIVATE ${GAMEWINDOW_SOURCES_EGLUT} ${GAMEWINDOW_SOURCES_LINUX_GAMEPAD} src/window_manager_glfw_fallback_eglut.cpp src/window_manager_glfw_fallback_eglut.h)
+        target_link_libraries(gamewindow PUBLIC eglut linux-gamepad)
+        target_compile_definitions(gamewindow PRIVATE FALLBACK_EGLUT)
+    endif()
+elseif (GAMEWINDOW_SYSTEM STREQUAL "SDL3")
+    target_sources(gamewindow PRIVATE ${GAMEWINDOW_SOURCES_SDL3})
+    target_link_libraries(gamewindow PRIVATE SDL3::SDL3)
+endif()

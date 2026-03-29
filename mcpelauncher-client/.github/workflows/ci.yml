@@ -1,0 +1,24 @@
+on: pull_request
+jobs:
+ linux:
+    uses: minecraft-linux/appimage-builder/.github/workflows/main.yml@main
+    with:
+      submodule-refs: |-
+        [
+          {
+            "project": "mcpelauncher",
+            "path": "mcpelauncher-client",
+            "ref": ${{ tojson(github.sha) }}
+          }
+        ]
+ macOS:
+    uses: minecraft-linux/macos-builder/.github/workflows/main.yml@main
+    with:
+      submodule-refs: |-
+        [
+          {
+            "project": "mcpelauncher",
+            "path": "mcpelauncher-client",
+            "ref": ${{ tojson(github.sha) }}
+          }
+        ]
