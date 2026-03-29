@@ -1,6 +1,7 @@
 # mcpelauncher on freebsd without linuxulator, kind of native with shim!
 
 please dont curse on me, my net is slow so ill upload to other git platforms as mirror
+
 u need to mount /proc as well as defined in freebsd handbook
 also this is stripped build from macos so please dont hate on me
 
