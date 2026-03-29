@@ -32,6 +32,14 @@ CC=clang CXX=clang++ cmake .. -Wno-dev \
 make -j$(nproc)
 sudo make install # or use your fav privilige escalation tool
 ```
+To sideload apk:
+```
+mkdir -p ~/.local/share/mcpelauncher/games/com.mojang.minecraftpe
+cd ~/.local/share/mcpelauncher/games/com.mojang.minecraftpe
+unzip /path/to/minecraft-x86_64.apk
+```
+Note: sideloading pirate apk is not my issue its your issue so please use playstore one indeed
+
 Known issues:
 - there is no xbox live login right now
 - cannot load FMOD host lib (uses sdl3/pulseaudio as backend)
