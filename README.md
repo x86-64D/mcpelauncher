@@ -43,6 +43,5 @@ unzip /path/to/minecraft-x86_64.apk
 Note: sideloading pirate apk is not my issue its your issue so please use playstore one indeed
 
 Known issues:
-- there is no xbox live login right now
 - cannot load FMOD host lib (uses sdl3/pulseaudio as backend)
 - no linux-gamepad support
