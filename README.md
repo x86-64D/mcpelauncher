@@ -32,7 +32,7 @@ CC=clang CXX=clang++ cmake .. -Wno-dev \
   -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/lib -lepoll-shim -lexecinfo"
 
 make -j$(nproc)
-sudo make install # or use your fav privilige escalation tool
+sudo make install # or change dir to ~/.local 
 ```
 To sideload apk:
 ```
