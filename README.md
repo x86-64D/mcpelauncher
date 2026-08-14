@@ -4,7 +4,7 @@ please dont curse on me, my net is slow so ill upload to other git platforms as 
 
 u need to mount /proc as well as defined in freebsd handbook
 
-also this is stripped build from macos and freebsd kind of
+also this is stripped build from macos and linux kind of
 
 installation and build is easy
 
@@ -45,3 +45,4 @@ Note: sideloading pirate apk is not my issue its your issue so please use playst
 Known issues:
 - cannot load FMOD host lib (uses sdl3/pulseaudio as backend)
 - no linux-gamepad support
+- character animations somehow is like roblox 2006, ill fix that soon
